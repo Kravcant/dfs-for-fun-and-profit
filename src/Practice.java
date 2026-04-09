@@ -142,16 +142,19 @@ public class Practice {
    */
   public boolean hasStrictlyIncreasingPath(Vertex<Integer> start, Vertex<Integer> end) {
     if(start == null || end == null) throw new NullPointerException();
-    return hasStrictlyIncreasingPath(start, end, new HashSet<>(), true);
+    return hasStrictlyIncreasingPath(start, end, new HashSet<>());
   }
 
-  private static boolean hasStrictlyIncreasingPath(Vertex<Integer> current, Vertex<Integer> end, Set<Vertex<Integer>> visited, boolean increase) {
-    if(current == null || visited.contains(current) || current == end) return increase;
+  private static boolean hasStrictlyIncreasingPath(Vertex<Integer> current, Vertex<Integer> end, Set<Vertex<Integer>> visited) {
+    if(current == end) return true;
     visited.add(current);
     for (Vertex<Integer> neighbor : current.neighbors) {
-      if(neighbor.data < current.data) increase = false;
-      increase = hasStrictlyIncreasingPath(neighbor, end, visited, increase);
+      if(neighbor.data > current.data) {
+        if(hasStrictlyIncreasingPath(neighbor, end, visited)) {
+          return true;
+        }
+      }
     }
-    return increase;
+    return false;
   }
 }
