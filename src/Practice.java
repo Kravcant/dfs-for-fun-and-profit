@@ -48,6 +48,7 @@ public class Practice {
     for (Vertex<T> neighbor : current.neighbors) reachable(neighbor, visited);
     return visited;
   }
+
   /**
    * Returns the maximum value among all vertices reachable from the given starting vertex,
    * including the starting vertex itself.
@@ -58,7 +59,18 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    return max(vertex, new HashSet<>());
+  }
+
+  private static int max(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
+    if (vertex == null || visited.contains(vertex)) return Integer.MIN_VALUE;
+    visited.add(vertex);
+    int maxVal = vertex.data;
+    for (Vertex<Integer> neighbor : vertex.neighbors) {
+      int num = max(neighbor, visited);
+      if (num > maxVal) maxVal = num;
+    }
+    return maxVal;
   }
 
   /**
