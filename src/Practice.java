@@ -39,9 +39,15 @@ public class Practice {
    * @return A set containing all reachable vertices, or an empty set if vertex is null.
    */
   public <T> Set<Vertex<T>> reachable(Vertex<T> vertex) {
-    return null;
+    return reachable(vertex, new HashSet<>());
   }
 
+  private static <T> Set<Vertex<T>> reachable(Vertex<T> current, Set<Vertex<T>> visited) {
+    if (current == null || visited.contains(current)) return new HashSet<>();
+    visited.add(current);
+    for (Vertex<T> neighbor : current.neighbors) reachable(neighbor, visited);
+    return visited;
+  }
   /**
    * Returns the maximum value among all vertices reachable from the given starting vertex,
    * including the starting vertex itself.
